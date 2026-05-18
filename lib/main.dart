@@ -26,7 +26,7 @@ Widget buildProductCard(
   int index,
 ) {
   // 1. Math calculation guarantees two cards fit perfectly with side margins
-  final double cardWidth = (MediaQuery.of(context).size.width / 2) - 20;
+  // final double cardWidth = (MediaQuery.of(context).size.width / 2) - 20;
 
   final String imagePath = item['imagePath'] ?? '';
   final bool isNetworkImage =
@@ -59,7 +59,7 @@ Widget buildProductCard(
       );
     },
     child: Container(
-      width: cardWidth,
+      // width: cardWidth,
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Card(
         elevation: 0, // Flat visual aesthetic matching your image
@@ -212,9 +212,7 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
                     style: GoogleFonts.ebGaramond(
                       fontSize: 22,
                       fontWeight: FontWeight.w400,
-                      color: const Color(
-                        0xFFBC8F8F,
-                      ), // Light pinkish brown tone
+                      color: const Color(0xFFBC8F8F),
                     ),
                   ),
                   const SizedBox(height: 2), // Small gap between the two texts
@@ -293,14 +291,12 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
             SizedBox(height: 12),
             SizedBox(
               height: 300,
-              width:
-                  100, // Increased height to give the elements breathing room
+              width: 130,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 itemCount: filteredProducts.length,
                 itemBuilder: (context, index) {
-                  // PASS THE INDEX HERE: This triggers the alternating theme behavior
                   return buildProductCard(
                     context,
                     filteredProducts[index],
