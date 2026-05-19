@@ -2,7 +2,7 @@ final List<Map<String, String>> allProducts = [
   {
     "title": "GUERLAN DIAMOND",
     "imagePath":
-        "https://ohbeauty.com/cdn/shop/products/GuerlainMonGuerlainEDP1.7oz.png?v=1673650936&width=1920",
+        "assets/images/3346470142473-guerlain-mon-guerlain-sparkling-bouquet-100ml.webp",
     "description": "DIAMONDS SHE 100ML",
     "about":
         "Experience timeless elegance with this radiant floral-oriental eau de parfum. A luxurious blend",
@@ -59,6 +59,16 @@ final List<Map<String, String>> allProducts = [
     "category": "CHANEL",
   },
   {
+    "title": "BOMBSHELL",
+    "imagePath":
+        "assets/images/bombshell_930ef219-b78a-474e-b095-9957eaaeff02.webp",
+    "description": "Bombshell SHE 250ML",
+    "about":
+        "A sparkling fruity fragrance with passion fruit, peony, and vanilla for a confident glamorous scent.",
+    "price": "£ 78.00",
+    "category": "VICTORIA SECRET",
+  },
+  {
     "title": "DIOR POISSON         ",
     "imagePath": "assets/images/diorP.png",
     "description": "Dior Poisson SHE 50ML",
@@ -76,5 +86,51 @@ final List<Map<String, String>> allProducts = [
         "A playful floral scent with pink pepper, jasmine, and vanilla creating a youthful and energetic impression.",
     "price": "£ 92.00",
     "category": "CHANEL",
+  },
+
+  //New Arivals
+  {
+    "title": "TEASE",
+    "imagePath":
+        "assets/images/Tease_Creme_Cloud_97652f3e-61dd-4620-a470-17e0bc1c9fb1.webp",
+    "description": "TEASE SHE 76ML",
+    "about":
+        "A soft gourmand fragrance with vanilla, meringue, and sandalwood creating a dreamy feminine scent.",
+    "price": "£ 62.00",
+    "arrival": "new",
+    "category": "VICTORIA SECRET",
+  },
+
+  {
+    "title": "GARDENIA",
+    "imagePath": "assets/images/Vse3Fqzvr9BtKtpxqFL6hH.png",
+    "description": "GARDENIA SHE 76ML",
+    "about":
+        "An elegant floral fragrance featuring rich gardenia petals blended with creamy white musk and fresh notes.",
+    "price": "£ 78.00",
+    "arrival": "new",
+    "category": "CHANEL",
+  },
+
+  {
+    "title": "J'Adore",
+    "imagePath": "assets/images/Y0998031_background_ZHC.png",
+    "description": "J'Adore SHE 76ML",
+    "about":
+        "A luminous floral fragrance with jasmine, ylang-ylang, and rose offering a luxurious feminine aroma.",
+    "price": "£ 82.00",
+    "arrival": "new",
+    "category": "DIOR",
+  },
+  {
+    "title": "CUIR SADDLE",
+    "imagePath":
+        "assets/images/3348901780971_-_dior_-_dior_cuir_saddle_unisex_eau_de_parfum_200_ml_-_200_ml_-_fd.png",
+    "description": "CUIR SADDLE SHE 76ML",
+    "about":
+        "A refined leather fragrance with smoky woods and warm spices delivering a bold sophisticated scent.",
+    "price": "£ 82.00",
+    "arrival": "new",
+    "category": "DIOR",
   },
 ];

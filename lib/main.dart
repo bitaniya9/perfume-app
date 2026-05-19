@@ -80,7 +80,7 @@ Widget buildProductCard(
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.ebGaramond(
-                  fontSize: 15,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.0,
                   color: primaryTextColor,
@@ -175,6 +175,7 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
     "DIOR",
     "SHALIMAR",
     "CHANEL",
+    "VICTORIA SECRET",
   ];
 
   @override
@@ -183,6 +184,8 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
         ? allProducts
         : allProducts.where((p) => p['category'] == selectedCategory).toList();
 
+    final newArrival = allProducts.where((p) => p['arrival'] == 'new').toList();
+
     return Scaffold(
       // backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
@@ -190,204 +193,240 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
         backgroundColor: Colors.transparent,
         leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(24, 0, 24, 16),
-          child: Container(
-            height: 64,
+
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            // height: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(35),
-              boxShadow: [
-                BoxShadow(
-                  // color: Color(0xFF3A1121),
-                  blurRadius: 20,
-                  offset: Offset(0, 10),
-                ),
-              ],
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF5ECEC),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.search,
-                        size: 18,
-                        color: const Color(0xFF3A1121),
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        "Search",
-                        style: TextStyle(
-                          color: const Color(0xFF3A1121),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.add_shopping_cart_outlined,
-                        color: const Color(0xFF3A1121),
-                      ),
-                      onPressed: () {},
-                    ),
-                    SizedBox(width: 8),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.person_outline,
-                        color: const Color(0xFF3A1121),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              gradient: LinearGradient(
+                colors: [Color(0xFFFBF4F4), Color(0xFFF4DFDF)],
+              ),
             ),
           ),
-        ),
-      ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFFBF4F4), Color(0xFFF4DFDF)],
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: kToolbarHeight + 20),
-            Padding(
-              padding: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 8.0),
+          SafeArea(
+            child: SingleChildScrollView(
+              // physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 120.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    "Featured",
-                    style: GoogleFonts.ebGaramond(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFFBC8F8F),
+                  const SizedBox(height: kToolbarHeight + 20),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Featured",
+                          style: GoogleFonts.ebGaramond(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFFBC8F8F),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ), // Small gap between the two texts
+                        Text(
+                          "Categories",
+                          style: GoogleFonts.ebGaramond(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(
+                              0xFF3A1121,
+                            ), // Deep wine text tone
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 2), // Small gap between the two texts
-                  Text(
-                    "Categories",
-                    style: GoogleFonts.ebGaramond(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF3A1121), // Deep wine text tone
+                  //for the chip
+                  Container(
+                    // color: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 12.0,
+                      horizontal: 8.0,
+                    ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+
+                      child: Row(
+                        children: categories.map((category) {
+                          final bool isSelected = selectedCategory == category;
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6.0),
+                            child: ChoiceChip(
+                              label: Text(category),
+                              showCheckmark: false,
+                              labelPadding: EdgeInsets.symmetric(
+                                horizontal: 5.0,
+                                vertical: 0.0,
+                              ),
+                              selected: isSelected,
+                              visualDensity: VisualDensity(
+                                horizontal: 0.0,
+                                vertical: -4.0,
+                              ),
+                              backgroundColor: const Color.fromARGB(
+                                255,
+                                249,
+                                231,
+                                237,
+                              ),
+                              selectedColor: Color.fromARGB(255, 249, 231, 237),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                side: BorderSide(
+                                  color: isSelected
+                                      ? Color(0xFF3A1121)
+                                      : Colors.grey.shade300,
+                                  width: isSelected ? 1.2 : 1.0,
+                                ),
+                              ),
+                              // backgroundColor: Colors.pink[50],
+                              labelStyle: TextStyle(
+                                // color: isSelected ? Colors.white : Color(0xFF3A1121),
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
+                              onSelected: (bool newVal) {
+                                if (newVal) {
+                                  setState(() {
+                                    selectedCategory = category;
+                                  });
+                                }
+                              },
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 12),
+                  SizedBox(
+                    height: 270,
+                    width: 65,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      itemCount: filteredProducts.length,
+                      itemBuilder: (context, index) {
+                        return buildProductCard(
+                          context,
+                          filteredProducts[index],
+                          index,
+                        );
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 24.0, 24.0, 12.0),
+                    child: Text(
+                      "New Arrivals",
+                      style: GoogleFonts.ebGaramond(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF3A1121),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 220,
+                    width: 65,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      itemCount: newArrival.length,
+                      itemBuilder: (context, index) {
+                        return buildProductCard(
+                          context,
+                          newArrival[index],
+                          index,
+                        );
+                      },
                     ),
                   ),
                 ],
               ),
             ),
-            //for the chip
-            Container(
-              // color: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-
-                child: Row(
-                  children: categories.map((category) {
-                    final bool isSelected = selectedCategory == category;
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6.0),
-                      child: ChoiceChip(
-                        label: Text(category),
-                        showCheckmark: false,
-                        labelPadding: EdgeInsets.symmetric(
-                          horizontal: 5.0,
-                          vertical: 0.0,
-                        ),
-                        selected: isSelected,
-                        visualDensity: VisualDensity(
-                          horizontal: 0.0,
-                          vertical: -4.0,
-                        ),
-                        backgroundColor: const Color.fromARGB(
-                          255,
-                          249,
-                          231,
-                          237,
-                        ),
-                        selectedColor: Color.fromARGB(255, 249, 231, 237),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                          side: BorderSide(
-                            color: isSelected
-                                ? Color(0xFF3A1121)
-                                : Colors.grey.shade300,
-                            width: isSelected ? 1.2 : 1.0,
-                          ),
-                        ),
-                        // backgroundColor: Colors.pink[50],
-                        labelStyle: TextStyle(
-                          // color: isSelected ? Colors.white : Color(0xFF3A1121),
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
-                        onSelected: (bool newVal) {
-                          if (newVal) {
-                            setState(() {
-                              selectedCategory = category;
-                            });
-                          }
-                        },
-                      ),
-                    );
-                  }).toList(),
+          ),
+          Positioned(
+            left: 24,
+            right: 24,
+            bottom: 16,
+            child: SafeArea(
+              child: Container(
+                height: 64,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(35),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF3A1121).withOpacity(0.15),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-
-            SizedBox(height: 12),
-            SizedBox(
-              height: 240,
-              width: 130,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                itemCount: filteredProducts.length,
-                itemBuilder: (context, index) {
-                  return buildProductCard(
-                    context,
-                    filteredProducts[index],
-                    index,
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 24.0, 24.0, 12.0),
-              child: Text(
-                "New Arrivals",
-                style: GoogleFonts.ebGaramond(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF3A1121),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF5ECEC),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.search,
+                            size: 18,
+                            color: Color(0xFF3A1121),
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            "Search",
+                            style: TextStyle(
+                              color: Color(0xFF3A1121),
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.add_shopping_cart_outlined,
+                            color: Color(0xFF3A1121),
+                          ),
+                          onPressed: () {},
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.person_outline,
+                            color: Color(0xFF3A1121),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
