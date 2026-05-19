@@ -87,7 +87,7 @@ Widget buildProductCard(
                 ),
               ),
 
-              // 4. FIXED: Centered Image Wrapper with uniform constraints
+              // 4. Centered Image
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -128,7 +128,7 @@ Widget buildProductCard(
                 ),
               ),
 
-              // 5. Short Subtitle Metadata Block
+              // 5. about
               Text(
                 item['description'] ?? '',
                 textAlign: TextAlign.center,
@@ -184,11 +184,81 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
         : allProducts.where((p) => p['category'] == selectedCategory).toList();
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      // backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(24, 0, 24, 16),
+          child: Container(
+            height: 64,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(35),
+              boxShadow: [
+                BoxShadow(
+                  // color: Color(0xFF3A1121),
+                  blurRadius: 20,
+                  offset: Offset(0, 10),
+                ),
+              ],
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF5ECEC),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.search,
+                        size: 18,
+                        color: const Color(0xFF3A1121),
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        "Search",
+                        style: TextStyle(
+                          color: const Color(0xFF3A1121),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.add_shopping_cart_outlined,
+                        color: const Color(0xFF3A1121),
+                      ),
+                      onPressed: () {},
+                    ),
+                    SizedBox(width: 8),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.person_outline,
+                        color: const Color(0xFF3A1121),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: Container(
         width: double.infinity,
@@ -290,11 +360,11 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
 
             SizedBox(height: 12),
             SizedBox(
-              height: 300,
+              height: 240,
               width: 130,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
                 itemCount: filteredProducts.length,
                 itemBuilder: (context, index) {
                   return buildProductCard(
@@ -303,6 +373,17 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
                     index,
                   );
                 },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20.0, 24.0, 24.0, 12.0),
+              child: Text(
+                "New Arrivals",
+                style: GoogleFonts.ebGaramond(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF3A1121),
+                ),
               ),
             ),
           ],
