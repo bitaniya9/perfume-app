@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_avif/flutter_avif.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'product_data.dart';
+import 'product_data.dart';
+import "add_to_cart.dart";
 
 //Making a reusable card function for the home page
 Widget buildCenteredCard({required String title, required String imagePath}) {
@@ -181,7 +182,22 @@ class DescriptionPage extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  //Navigate to the next page
+                  globalUserCart.add({
+                    "title": title,
+                    "price": price,
+                    "imagePath": imagePath,
+                    // "description": description ?? "",
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddToCartPage(
+                        // title: title,
+                        // price: price,
+                        // imagePath: imagePath,
+                      ),
+                    ),
+                  );
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(

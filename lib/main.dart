@@ -3,6 +3,7 @@ import 'product_data.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_avif/flutter_avif.dart';
 import 'description.dart';
+import 'add_to_cart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,9 +26,6 @@ Widget buildProductCard(
   Map<String, String> item,
   int index,
 ) {
-  // 1. Math calculation guarantees two cards fit perfectly with side margins
-  // final double cardWidth = (MediaQuery.of(context).size.width / 2) - 20;
-
   final String imagePath = item['imagePath'] ?? '';
   final bool isNetworkImage =
       imagePath.startsWith('http://') || imagePath.startsWith('https://');
@@ -167,7 +165,10 @@ class PerfumeShopPage extends StatefulWidget {
 }
 
 class _PerfumeShopPageState extends State<PerfumeShopPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String selectedCategory = "All";
+
+  String searchQuery = "";
 
   final List<String> categories = [
     "All",
@@ -180,18 +181,28 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredProducts = selectedCategory == 'All'
-        ? allProducts
-        : allProducts.where((p) => p['category'] == selectedCategory).toList();
-
+    final filteredProducts = allProducts.where((product) {
+      final bool matchesCategory =
+          selectedCategory == 'All' || product['category'] == selectedCategory;
+      final bool matchesSearch = (product['title'] ?? '')
+          .toLowerCase()
+          .contains(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    }).toList();
     final newArrival = allProducts.where((p) => p['arrival'] == 'new').toList();
 
     return Scaffold(
       // backgroundColor: Colors.transparent,
+      key: _scaffoldKey,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
+        ),
       ),
 
       body: Stack(
@@ -234,9 +245,7 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
                           style: GoogleFonts.ebGaramond(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
-                            color: const Color(
-                              0xFF3A1121,
-                            ), // Deep wine text tone
+                            color: const Color(0xFF3A1121),
                           ),
                         ),
                       ],
@@ -385,18 +394,32 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(
                             Icons.search,
                             size: 18,
                             color: Color(0xFF3A1121),
                           ),
                           SizedBox(width: 8),
-                          Text(
-                            "Search",
-                            style: TextStyle(
-                              color: Color(0xFF3A1121),
-                              fontSize: 14,
+                          Expanded(
+                            child: TextField(
+                              onChanged: (value) {
+                                setState(() {
+                                  searchQuery = value;
+                                });
+                              },
+                              style: TextStyle(
+                                color: Color(0xFF3A1121),
+                                fontSize: 14,
+                              ),
+                              decoration: InputDecoration(
+                                hintText: "Search",
+                                hintStyle: TextStyle(fontSize: 14),
+                                border: InputBorder
+                                    .none, // Removes default bottom underlines
+                                isDense:
+                                    true, // Shrinks default vertical height paddings inside box canvas bounds
+                              ),
                             ),
                           ),
                         ],
@@ -409,7 +432,14 @@ class _PerfumeShopPageState extends State<PerfumeShopPage> {
                             Icons.add_shopping_cart_outlined,
                             color: Color(0xFF3A1121),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddToCartPage(),
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(width: 8),
                         IconButton(

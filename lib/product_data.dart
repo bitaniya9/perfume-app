@@ -1,3 +1,5 @@
+final List<Map<String, String>> globalUserCart = [];
+
 final List<Map<String, String>> allProducts = [
   {
     "title": "GUERLAN DIAMOND",
